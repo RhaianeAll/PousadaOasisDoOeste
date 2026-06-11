@@ -1,40 +1,35 @@
 package pousada.model;
 
-public class Acomodacao {
-    private String codAcomodacao;
-    private int capacidadeMax;
+public abstract class Acomodacao {
+    private int codigo;
+    private int capacidadeMaxima;
     private double precoBaseDiaria;
 
-    public Acomodacao(String codAcomodacao, int capacidadeMax, double precoBaseDiaria) {
-        this.codAcomodacao = codAcomodacao;
-        this.capacidadeMax = capacidadeMax;
+    public Acomodacao(int codigo, int capacidadeMaxima, double precoBaseDiaria) {
+        if (precoBaseDiaria < 0) {
+            throw new IllegalArgumentException("O preço base não pode ser negativo.");
+        }
+        this.codigo = codigo;
+        this.capacidadeMaxima = capacidadeMaxima;
         this.precoBaseDiaria = precoBaseDiaria;
     }
 
-    public String getCodAcomodacao() {
-        return codAcomodacao;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setCodAcomodacao(String codAcomodacao) {
-        this.codAcomodacao = codAcomodacao;
-    }
-
-    public int getCapacidadeMax() {
-        return capacidadeMax;
-    }
-
-    public void setCapacidadeMax(int capacidadeMax) {
-        this.capacidadeMax = capacidadeMax;
+    public int getCapacidadeMaxima() {
+        return capacidadeMaxima;
     }
 
     public double getPrecoBaseDiaria() {
         return precoBaseDiaria;
     }
 
-    public void setPrecoBaseDiaria(double precoBaseDiaria) {
-        this.precoBaseDiaria = precoBaseDiaria;
+    public void exibirDadosBasicos() {
+        System.out.println("Código: " + codigo + " | Capacidade: " + capacidadeMaxima + " | Preço Base: R$" + precoBaseDiaria);
     }
-    
-    
-    
+
+    public abstract double calcularPrecoTotalDiarias(int dias);
+
 }

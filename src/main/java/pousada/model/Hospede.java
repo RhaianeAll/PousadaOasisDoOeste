@@ -6,8 +6,8 @@ public class Hospede {
     private String cpf;
 
     public Hospede(String nome, int idade, String cpf) {
+        setIdade(idade);
         this.nome = nome;
-        this.idade = idade;
         this.cpf = cpf;
     }
 
@@ -19,14 +19,6 @@ public class Hospede {
         this.nome = nome;
     }
 
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
     public String getCpf() {
         return cpf;
     }
@@ -34,6 +26,20 @@ public class Hospede {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
+    public int getIdade() {
+        return idade;
+    }
     
+    private void setIdade(int idade) {
+        if (idade < 0) {
+            throw new IllegalArgumentException("A idade do hóspede não pode ser negativa.");
+        }
+        this.idade = idade;
+    }
     
+    @Override
+    public String toString() {
+        return "Nome: " + nome + " | CPF: " + cpf + " | Idade: " + idade;
+    }
 }
