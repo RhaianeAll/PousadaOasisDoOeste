@@ -1,0 +1,8 @@
+A;QuartoPadrao;101;2;150.00
+A;QuartoPadrao;102;3;200.00
+A;Chale;201;5;300.00;50.00;100.00
+A;SuiteLuxo;301;2;450.00;80.00
+S;Refeicao;1;Café da Manhã Completo;45.00
+S;Refeicao;2;Jantar no Quarto;85.00
+S;Passeio;3;Trilha da Cachoeira;60.00;10
+S;Massagem;4;Massagem Relaxante;120.00

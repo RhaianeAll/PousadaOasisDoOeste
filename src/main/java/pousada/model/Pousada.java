@@ -54,17 +54,64 @@ public class Pousada {
 
     public void carregarDadosIniciais() {
         File arquivo = new File("acomodacoes_servicos.txt");
+        
         if (!arquivo.exists()) {
-            System.out.println("Arquivo acomodacoes_servicos.txt não encontrado. Iniciando listas vazias.");
-            return;
+            System.out.println("ATENÇÃO: O arquivo acomodacoes_servicos.txt não foi encontrado na raiz do projeto!");
+            return; 
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha;
+            
             while ((linha = br.readLine()) != null) {
+                if (linha.trim().isEmpty()) continue;
+                
+                // Divide a linha em pedaços usando o ponto e vírgula
+                String[] dados = linha.split(";");
+                String categoria = dados[0];
+                String tipo = dados[1];
+
+                if (categoria.equals("A")) {
+                    int codigo = Integer.parseInt(dados[2]);
+                    int capacidade = Integer.parseInt(dados[3]);
+                    double precoBase = Double.parseDouble(dados[4]);
+
+                    if (tipo.equals("QuartoPadrao")) {
+                        acomodacoes.add(new QuartoPadrao(codigo, capacidade, precoBase));
+                        
+                    } else if (tipo.equals("Chale")) {
+                        double taxaAquec = Double.parseDouble(dados[5]);
+                        double taxaLimp = Double.parseDouble(dados[6]);
+                        acomodacoes.add(new Chale(codigo, capacidade, precoBase, taxaAquec, taxaLimp));
+                        
+                    } else if (tipo.equals("SuiteLuxo")) {
+                        double adicionalFrigobar = Double.parseDouble(dados[5]);
+                        acomodacoes.add(new SuiteLuxo(codigo, capacidade, precoBase, adicionalFrigobar));
+                    }
+                } 
+                else if (categoria.equals("S")) {
+                    int codigo = Integer.parseInt(dados[2]);
+                    String descricao = dados[3];
+                    double valorPrincipal = Double.parseDouble(dados[4]);
+
+                    if (tipo.equals("Refeicao")) {
+                        servicos.add(new Refeicao(codigo, descricao, valorPrincipal));
+                        
+                    } else if (tipo.equals("Passeio")) {
+                        int qtdMax = Integer.parseInt(dados[5]);
+                        servicos.add(new Passeio(codigo, descricao, valorPrincipal, qtdMax));
+                        
+                    } else if (tipo.equals("Massagem")) {
+                        servicos.add(new Massagem(codigo, descricao, valorPrincipal));
+                    }
+                }
             }
+            System.out.println("Dados iniciais carregados com sucesso a partir do arquivo!");
+            
         } catch (IOException e) {
-            System.err.println("Erro ao ler dados iniciais: " + e.getMessage());
+            System.err.println("Erro ao ler o arquivo de dados iniciais: " + e.getMessage());
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            System.err.println("Erro de formatação no arquivo .txt. Verifique se os campos estão corretos: " + e.getMessage());
         }
     }
 

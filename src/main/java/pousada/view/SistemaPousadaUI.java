@@ -33,10 +33,11 @@ public class SistemaPousadaUI extends JFrame {
     public SistemaPousadaUI() {
         pousada = new Pousada();
         
+        pousada.carregarDadosIniciais();
+        pousada.carregarHospedesEReservas();
         configurarJanelaBase();
         inicializarComponentes();
-        
-        
+
     }
 
     private void configurarJanelaBase() {
@@ -61,7 +62,7 @@ public class SistemaPousadaUI extends JFrame {
         lblLogo.setForeground(COR_TEXTO_ESCURO);
         lblLogo.setAlignmentX(Component.CENTER_ALIGNMENT);
         menuLateral.add(lblLogo);
-        menuLateral.add(Box.createRigidArea(new Dimension(0, 40))); // Espaçamento
+        menuLateral.add(Box.createRigidArea(new Dimension(0, 40)));
 
         // Botões do Menu
         JButton btnHospedes = criarBotaoMenu("Hóspedes", "telaHospedes");
@@ -76,6 +77,49 @@ public class SistemaPousadaUI extends JFrame {
         menuLateral.add(btnServicos);
         menuLateral.add(Box.createRigidArea(new Dimension(0, 10)));
         menuLateral.add(btnReservas);
+
+        menuLateral.add(Box.createVerticalGlue()); 
+
+        JButton btnSalvarSistema = new JButton("Salvar Sistema");
+        btnSalvarSistema.setMaximumSize(new Dimension(180, 40));
+        btnSalvarSistema.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnSalvarSistema.setBackground(new Color(60, 179, 113));
+        btnSalvarSistema.setForeground(Color.WHITE);
+        btnSalvarSistema.setOpaque(true);
+        btnSalvarSistema.setContentAreaFilled(true);
+        btnSalvarSistema.setBorderPainted(false);
+        btnSalvarSistema.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnSalvarSistema.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        btnSalvarSistema.addActionListener(e -> {
+            pousada.salvarDados();
+            JOptionPane.showMessageDialog(this, "Dados salvos com sucesso no arquivo hospedes_reservas.txt!", "Salvar", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        JButton btnSair = new JButton("Sair do Sistema");
+        btnSair.setMaximumSize(new Dimension(180, 40));
+        btnSair.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnSair.setBackground(new Color(220, 20, 60));
+        btnSair.setForeground(Color.WHITE);
+        btnSair.setOpaque(true);
+        btnSair.setContentAreaFilled(true);
+        btnSair.setBorderPainted(false);
+        btnSair.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnSair.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        btnSair.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this, "Deseja salvar os dados antes de sair?", "Sair", JOptionPane.YES_NO_CANCEL_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                pousada.salvarDados();
+                System.exit(0);
+            } else if (confirm == JOptionPane.NO_OPTION) {
+                System.exit(0);
+            }
+        });
+
+        menuLateral.add(btnSalvarSistema);
+        menuLateral.add(Box.createRigidArea(new Dimension(0, 10)));
+        menuLateral.add(btnSair);
 
         // 2. Criar a Área Principal (onde as telas mudam)
         gerenciadorCards = new CardLayout();
